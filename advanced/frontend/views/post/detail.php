@@ -77,6 +77,7 @@ use yii\helpers\Url;
                     ));?>
                 <?php endif;?>
 
+                <?php if(!Yii::$app->user->isGuest) :?>
                 <h5>发表评论</h5>
                 <?php
                 $commentModel =new Comment();
@@ -84,6 +85,7 @@ use yii\helpers\Url;
                     'id'=>$model->id,
                     'commentModel'=>$commentModel,
                 ));?>
+                <?php endif;?>
 
             </div>
         </div>

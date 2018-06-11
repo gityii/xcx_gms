@@ -7,24 +7,23 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-frontend',
+    'id' => 'app-api',
     'basePath' => dirname(__DIR__),
+    'controllerNamespace' => 'api\controllers',
     'bootstrap' => ['log'],
-    'controllerNamespace' => 'frontend\controllers',
-    'defaultRoute' => 'post/index',
-    'language' =>'zh-CN',
+    'modules' => [],
     'components' => [
         'request' => [
-            //'csrfParam' => '_csrf-frontend',
+           // 'csrfParam' => '_csrf-backend',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
-            // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            // this is the name of the session cookie used for login on the backend
+            'name' => 'advanced-api',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -38,17 +37,14 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
         'urlManager' => [
             'enablePrettyUrl' => true,
+            //'enableStrictParsing' => true,
             'showScriptName' => false,
-            'suffix'=>'.html',
-            'rules' => [
-                '<controller:\w+>/<id:\d+>'=>'<controller>/detail',
-                'posts'=>'post/index',
-            ],
+//            'rules' => [
+//               // ['classs' => 'yii\rest\UrlRule', 'controller' => 'article'],
+//            ],
         ],
-
     ],
     'params' => $params,
 ];

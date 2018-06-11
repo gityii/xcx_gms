@@ -29,7 +29,7 @@ class PostController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-
+/*
             'pageCache'=>[
                 'class'=>'yii\filters\PageCache',
                 'only'=>['index'],
@@ -59,6 +59,7 @@ class PostController extends Controller
                 'cacheControlHeader' => 'public,max-age=600',
 
             ],
+*/
         ];
 
 
@@ -171,17 +172,19 @@ class PostController extends Controller
         $tags = Tag::findTagWeights();
         $recentComments = Comment::findRecentComments();
 
-        $userMe = User::findOne(Yii::$app->user->id);
         $commentModel = new Comment();
-        $commentModel->email = $userMe->email;
-        $commentModel->userid = $userMe->id;
 
-        //step2. 当评论提交时，处理评论
-        if ($commentModel->load(Yii::$app->request->post())) {
-            $commentModel->status = 1; //新评论默认状态为 pending
-            $commentModel->post_id = $id;
-            if ($commentModel->save()) {
-                $this->added = 1;
+        if(!Yii::$app->user->isGuest) {//登录后才可以评论
+            $userMe = User::findOne(Yii::$app->user->id);
+            $commentModel->email = $userMe->email;
+            $commentModel->userid = $userMe->id;
+            //step2. 当评论提交时，处理评论
+            if ($commentModel->load(Yii::$app->request->post())) {
+                $commentModel->status = 1; //新评论默认状态为 pending
+                $commentModel->post_id = $id;
+                if ($commentModel->save()) {
+                    $this->added = 1;
+                }
             }
         }
 
